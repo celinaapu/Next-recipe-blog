@@ -8,6 +8,11 @@ export default {
   ],
   theme: {
     extend: {
+      backgroundImage: {
+        mainBackground: "url('/assets/images/mainBackground.jpg')",
+        contactBg: "url('/assets/images/bdac.jpg')",
+        mountainBg: "url('/assets/images/mountain.jpg')",
+      },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
