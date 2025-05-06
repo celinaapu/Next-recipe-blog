@@ -1,7 +1,6 @@
 import { FaSearch } from "react-icons/fa";
-import { RandomPost } from "@recipeblog/components/randomPost";
-import FeaturedPost from "./featuredPost/page";
 import Footer from "@recipeblog/components/Footer";
+import AllRecipe from "./recipes/page";
 
 export default function Home() {
   return (
@@ -25,7 +24,7 @@ export default function Home() {
         </div>
       </div>
       <div>
-        <FeaturedPost posts={RandomPost} />
+        <AllRecipe />
       </div>
       <div>
         <Footer />

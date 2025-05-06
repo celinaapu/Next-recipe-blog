@@ -4,11 +4,11 @@ import Link from "next/link";
 import { Logo } from "./logo";
 import { IoMdSunny } from "react-icons/io";
 import { useState } from "react";
-import { signOut } from "next-auth/react";
-// import { signIn, signOut, useSession } from "next-auth/react";
+// import { signOut } from "next-auth/react";
 
 export const Header = () => {
-  // const isUserLoggedIn = true;
+  const isUserLoggedIn = true;
+
   const [toggleDropdown, setToggleDropdown] = useState(false);
   return (
     <div className="w-full p-4 px-10 flex items-center justify-between fixed top-0">
@@ -30,9 +30,8 @@ export const Header = () => {
         </button>
       </nav>
       <div className="sm:flex hidden">
-        {/* {isUserLoggedIn ? ( */}
-        <div className="flex flex-rol">
-          <div>
+        {isUserLoggedIn ? (
+          <div className="flex flex-rol">
             <div
               role="button"
               onClick={() => setToggleDropdown((prev) => !prev)}
@@ -50,7 +49,7 @@ export const Header = () => {
                 </Link>
 
                 <Link
-                  href="/ create-post"
+                  href="/create-post"
                   className=" hover:border-2 boder  hover:bg-black hover:text-white  bg-white/80 bg- mr-2 rounded-full px-4 py-2"
                 >
                   <button>Create Post</button>
@@ -61,14 +60,21 @@ export const Header = () => {
                   className=" hover:border-2 boder  hover:bg-black hover:text-white  bg-white/80 bg- mr-2 rounded-full px-4 py-2"
                   onClick={() => setToggleDropdown(false)}
                 >
-                  <div role="button" onClick={signOut}>
-                    Sign Out
-                  </div>
+                  <div role="button">Sign Out</div>
                 </Link>
               </div>
             )}
           </div>
-        </div>
+        ) : (
+          <>
+            <button
+              type="button"
+              className=" hover:border-2 boder  hover:bg-black hover:text-white  bg-white/80 bg- mr-2 rounded-full px-4 py-2"
+            >
+              sign In
+            </button>
+          </>
+        )}
       </div>
     </div>
   );

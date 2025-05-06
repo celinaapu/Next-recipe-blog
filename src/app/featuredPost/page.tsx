@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 type Post = {
-  id: string;
+  _id: string;
   title: string;
   foodImage: string;
   description: string;
@@ -25,10 +25,10 @@ const FeaturedPost: React.FC<{ posts: Post[] }> = ({ posts }) => {
       <div className="grid grid-cols-3 gap-4">
         {posts.map((post) => (
           <div
-            key={post.id}
+            key={post._id}
             className="border border-gray-300 rounded-lg overflow-hidden shadow-md p-4"
           >
-            <Link href={`/posts/${post.id}`}>
+            <Link href={`/posts/${post._id}`}>
               <Image
                 src={post.foodImage}
                 alt="foodImage"

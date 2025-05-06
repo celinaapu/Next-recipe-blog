@@ -11,7 +11,6 @@
 
 export const RandomPost = [
   {
-    id: "1",
     title: "Buffalo Chicken Burgers",
     foodImage:
       "https://res.cloudinary.com/dhliy2g1g/image/upload/v1741238014/Buffalo-Chicken-Burgers-3_h2bkuw.jpg",
@@ -47,7 +46,6 @@ export const RandomPost = [
       "Serve your buffalo chicken burgers with a side of crispy fries, sweet potato fries, or onion rings.For extra cooling, you can serve it with a side of celery sticks and some extra blue cheese or ranch dipping sauce.",
   },
   {
-    id: "2",
     title: " Chicken Tinga Tacos",
     foodImage:
       "https://res.cloudinary.com/dhliy2g1g/image/upload/v1741238018/Chicken-Tinga-Tacos-6_lrnhnj.jpg",
@@ -85,7 +83,6 @@ export const RandomPost = [
       "Serve with a side of Mexican rice, refried beans, or grilled vegetables.Add a dollop of sour cream or guacamole for extra richness.",
   },
   {
-    id: "3",
     title: "Vegan Gochujang Tofu",
     foodImage:
       "https://res.cloudinary.com/dhliy2g1g/image/upload/v1741238017/Gochujang-Tofu-in-Bowl_xh8e3d.jpg",
@@ -121,7 +118,6 @@ export const RandomPost = [
       "Pair with a side of steamed veggies, such as broccoli, bok choy, or spinach, to make it a more complete meal.You can also serve with a side of kimchi for an extra layer of flavor.",
   },
   {
-    id: "4",
     title: " Nigeria Jollof",
     foodImage:
       "https://res.cloudinary.com/dhliy2g1g/image/upload/v1741238016/NigJollof_f4o41o.jpg",
@@ -152,7 +148,6 @@ export const RandomPost = [
       "Serve with fried plantains (dodo), grilled chicken, or beef.You can also serve with a side of salad, fried fish, or goat meat for a more hearty meal.Enjoy your delicious Nigerian Jollof Rice!Let me know if you'd like to adjust anything or need more help with the recipe!",
   },
   {
-    id: "5",
     title: " Vegan Crunchwraps with Cashew",
     foodImage:
       "https://res.cloudinary.com/dhliy2g1g/image/upload/v1741238018/Vegan-Crunchwraps-with-Cashew-Queso_v7pas3.jpg",
@@ -189,7 +184,6 @@ export const RandomPost = [
       "Pair with a side of Mexican rice, guacamole, or a side salad.For an extra kick, serve with jalapeño slices or hot sauce.",
   },
   {
-    id: "6",
     title: " Vegetarian Shepherds Pie",
     foodImage:
       "https://res.cloudinary.com/dhliy2g1g/image/upload/v1741238019/vegetarian-shepherds-pie_zjhs1z.jpg",

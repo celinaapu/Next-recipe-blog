@@ -1,7 +1,15 @@
-import type { Metadata } from "next";
+// "use client";
+
+// import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Header } from "../components/navbar";
+
+import axios from "axios";
+import { Providers } from "@recipeblog/components/provider";
+
+//import { getServerSession } from "next-auth";
+//import { useSession } from "next-auth/react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,23 +21,28 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Trusted Recipes",
-  description: "well tasted and trsuted recipes ",
-};
+// export const metadata: Metadata = {
+//   title: "Trusted Recipes",
+//   description: "well tasted and trsuted recipes ",
+// };
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  axios.defaults.baseURL = "http://localhost:5000";
+  axios.defaults.headers.post["Content-Type"] = "application/json";
+  //const { data: session } = useSession();
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      // className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Header />
-        {children}
+        <Providers>
+          <Header />
+          {children}
+        </Providers>
       </body>
     </html>
   );

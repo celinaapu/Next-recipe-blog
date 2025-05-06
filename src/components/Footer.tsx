@@ -8,7 +8,7 @@ const Footer = () => {
       <div className="flex w-[35%] flex-col text-center items-center text-[12px]">
         <Image src={PageLogo} alt="blogLogo" className="w-36 h-auto pt-4" />
         <p className="mt-2">
-          Our Address is at Street No.<p>City,State</p> Country
+          Our Address is at Street No.<span>City,State</span> Country
         </p>
       </div>
       <div className="flex pt-4 flex-col w-[20%] gap-4">

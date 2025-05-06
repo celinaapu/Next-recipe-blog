@@ -1,16 +1,49 @@
 "use client";
 
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import PageLogo from "../../../public/assets/images/blogLogo.jpeg";
 import Image from "next/image";
 import Link from "next/link";
+import axios from "axios";
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+
+type LoginData = {
+  email: string;
+  password: string;
+};
 
 const Login = () => {
-  const [userEmail, setUserEmail] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [formError, setFormError] = useState("");
+  const router = useRouter();
 
-  const handleSubmit = async (e: { preventDefault: () => void }) => {
+  const { isPending, mutate } = useMutation({
+    mutationFn: (loginData: LoginData) => {
+      return axios.post("/api/auth/login", loginData, {
+        withCredentials: true,
+      });
+    },
+
+    mutationKey: ["signin"],
+    onSuccess: () => {
+      return router.push("/");
+    },
+    onError: () => {
+      setFormError("Invalid email or password.");
+    },
+  });
+
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+
+    if (!email || !password) {
+      setFormError("Both fields are required");
+      return;
+    }
+
+    mutate({ email, password });
   };
 
   return (
@@ -41,11 +74,12 @@ const Login = () => {
           onSubmit={handleSubmit}
           className="justify-center pt-10  flex flex-col"
         >
+          {formError && <p className="text-red-600">{formError}</p>}
           <div>
             <input
               type="text"
-              value={userEmail}
-              onChange={(e) => setUserEmail(e.target.value)}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
               placeholder="Enter your Eamil "
               className="w-full h-16 text-xl mb-4 p-2 focus:outline-none border border-gray-300 rounded"
@@ -63,9 +97,10 @@ const Login = () => {
           </div>
           <button
             type="submit"
-            className="w-full h-16 mb-4 py-2  mt-5 text-xl bg-blue-500 text-white rounded hover:bg-blue-600"
+            disabled={isPending}
+            className="w-full h-16 mb-4 py-2  mt-5 text-xl bg-blue-500 text-white rounded hover:bg-green-600"
           >
-            Sign In
+            {isPending ? "Logging In..." : "Login"}
           </button>
           <div className="flex flex-col justify-center text-center w-full mt-4">
             <Link href="/signUp" className="text-blue-800 underline mb-3">
