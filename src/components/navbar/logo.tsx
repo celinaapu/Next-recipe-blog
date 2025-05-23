@@ -12,9 +12,7 @@ export const Logo = () => {
           className="w-full h-auto rounded-full"
         />
       </div>
-      <span className="font-bold max-sm:hidden text-xl text-white">
-        Trusted Recipes
-      </span>
+      <span className="font-bold text-xl text-black">Trusted Recipes</span>
     </Link>
   );
 };

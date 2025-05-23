@@ -1,80 +1,70 @@
 "use client";
 
-import { useMutation, useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { useParams, useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { MdUpdate } from "react-icons/md";
+import { DevTool } from "@hookform/devtools";
+import axios from "axios";
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 
 export type RecipeData = {
   _id: string;
   title: string;
   foodImage: string;
   description: string;
-  recipe: string[] | string;
+  recipe: string[];
   procedure: string;
   profileImage: string;
   name: string;
   servingSuggestion: string;
 };
 
-const EditRecipe = () => {
-  const router = useRouter();
-  const params = useParams();
-  const recipeId = params?.id as string;
-
+const CreatePost = () => {
   const form = useForm<RecipeData>();
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors, touchedFields },
-  } = form;
-
-  const { data: existingRecipe, isLoading } = useQuery<RecipeData>({
-    queryKey: ["recipe", recipeId],
-    queryFn: async () => {
-      const res = await axios.get(`/api/recipe/${recipeId}`);
-      return res.data;
-    },
-    enabled: !!recipeId, // Only run if ID is present
-  });
+  const router = useRouter();
+  const { register, handleSubmit, control, formState } = form;
+  const { errors } = formState;
 
   useEffect(() => {
-    if (existingRecipe) {
-      reset({
-        ...existingRecipe,
-        recipe: Array.isArray(existingRecipe.recipe)
-          ? existingRecipe.recipe.join(", ")
-          : existingRecipe.recipe,
-      });
+    const token = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("access_token="))
+      ?.split("=")[1];
+
+    if (!token) {
+      router.push("/create-recipe");
     }
-  }, [existingRecipe, reset]);
+  }, [router]);
 
   const { mutate, isPending } = useMutation({
-    mutationFn: (updatedRecipe: RecipeData) =>
-      axios.put(`/api/recipe/${recipeId}`, updatedRecipe, {
+    mutationFn: (newRecipe: RecipeData) => {
+      return axios.post("/api/recipe", newRecipe, {
         withCredentials: true,
-      }),
-    onSuccess: () => router.push("/"),
-    onError: (err) => console.error("Error updating recipe:", err),
+      });
+    },
+    mutationKey: ["createRecipe"],
+    onSuccess: () => {
+      return router.push("/profile");
+    },
+
+    onError: (error) => {
+      console.error(" Error creating your Recipe:", error);
+    },
   });
 
   const onSubmit = (data: RecipeData) => {
+    console.log("Form data is submitted:", data);
     mutate(data);
   };
-
-  if (isLoading) return <p> Loading....</p>;
 
   return (
     <div className="w-full h-screen p-6 text-black shadow overflow-y-auto">
       <h2 className="text-center font-extrabold text-2xl mb-6">
-        Edit your Recipe
-        <MdUpdate />
+        Create a New Recipe
       </h2>
       <form
         onSubmit={handleSubmit(onSubmit)}
+        noValidate
         className="w-[80%] mx-auto flex flex-col space-y-4"
       >
         <div>
@@ -87,11 +77,9 @@ const EditRecipe = () => {
             className="w-full h-10 p-2 border border-gray-300 rounded focus:outline-none"
             {...register("title", { required: "title is required" })}
           />
-          {touchedFields.title && errors.title && (
-            <p className="text-red-500 text-left align-left text-sm">
-              {errors.title.message}
-            </p>
-          )}
+          <p className="text-red-500 text-left align-left text-sm">
+            {errors.title?.message}
+          </p>
         </div>
         <div>
           <label htmlFor="description" className="font-semibold block text-lg">
@@ -104,11 +92,9 @@ const EditRecipe = () => {
             })}
             className="w-full h-16 p-2 border border-gray-300 rounded focus:outline-none"
           />
-          {touchedFields.description && errors.description && (
-            <p className="text-red-500 text-left align-left text-sm">
-              {errors.description.message}
-            </p>
-          )}
+          <p className="text-red-500 text-left align-left text-sm">
+            {errors.description?.message}
+          </p>
         </div>
         <div>
           <label htmlFor="foodImage" className="font-semibold block text-lg">
@@ -123,11 +109,9 @@ const EditRecipe = () => {
             })}
             className="w-full p-2 border border-gray-300 rounded focus:outline-none"
           />
-          {touchedFields.foodImage && errors.foodImage && (
-            <p className="text-red-500 text-left align-left text-sm">
-              {errors.foodImage.message}
-            </p>
-          )}
+          <p className="text-red-500 text-left align-left text-sm">
+            {errors.foodImage?.message}{" "}
+          </p>
         </div>
         <div>
           <label htmlFor="recipe" className="font-semibold block text-lg">
@@ -138,11 +122,9 @@ const EditRecipe = () => {
             {...register("recipe", { required: "Recipe is required" })}
             className="w-full h-36 p-2 border border-gray-300 rounded focus:outline-none"
           />
-          {touchedFields.recipe && errors.recipe && (
-            <p className="text-red-500 text-left align-left text-sm">
-              {errors.recipe.message}
-            </p>
-          )}
+          <p className="text-red-500 text-left align-left text-sm">
+            {errors.recipe?.message}
+          </p>
         </div>
         <div>
           <label htmlFor="procedure" className="font-semibold block text-lg">
@@ -156,11 +138,9 @@ const EditRecipe = () => {
             })}
             className="w-full h-52 p-2 border border-gray-300 rounded focus:outline-none"
           />
-          {touchedFields.procedure && errors.procedure && (
-            <p className="text-red-500 text-left align-left text-sm">
-              {errors.procedure.message}
-            </p>
-          )}
+          <p className="text-red-500 text-left align-left text-sm">
+            {errors.procedure?.message}
+          </p>
         </div>
         <div>
           <label
@@ -177,11 +157,9 @@ const EditRecipe = () => {
             })}
             className="w-full p-2 border border-gray-300 rounded focus:outline-none"
           />
-          {touchedFields.servingSuggestion && errors.servingSuggestion && (
-            <p className="text-red-500 text-left align-left text-sm">
-              {errors.servingSuggestion.message}
-            </p>
-          )}
+          <p className="text-red-500 text-left align-left text-sm">
+            {errors.servingSuggestion?.message}
+          </p>
         </div>
         <div>
           <label htmlFor="name" className="font-semibold block text-lg">
@@ -194,11 +172,9 @@ const EditRecipe = () => {
             {...register("name", { required: "please add your name" })}
             className="w-full h-10 p-2 border border-gray-300 rounded focus:outline-none"
           />
-          {touchedFields.name && errors.name && (
-            <p className="text-red-500 text-left align-left text-sm">
-              {errors.name.message}
-            </p>
-          )}
+          <p className="text-red-500 text-left align-left text-sm">
+            {errors.name?.message}
+          </p>
         </div>
         <div>
           <label htmlFor="profileimage" className="font-semibold block text-lg">
@@ -213,11 +189,9 @@ const EditRecipe = () => {
             })}
             className="w-full p-2 border border-gray-300 rounded focus:outline-none"
           />
-          {touchedFields.profileImage && errors.profileImage && (
-            <p className="text-red-500 text-left align-left text-sm">
-              {errors.profileImage.message}
-            </p>
-          )}
+          <p className="text-red-500 text-left align-left text-sm">
+            {errors.profileImage?.message}
+          </p>
         </div>
         <div className="pt-6">
           <button
@@ -231,11 +205,12 @@ const EditRecipe = () => {
       </form>
       {isPending && (
         <div className="mt-4 text-center text-green-500">
-          <p>Updatind</p>
+          <p>Creating...</p>
         </div>
       )}
+      <DevTool control={control} />
     </div>
   );
 };
 
-export default EditRecipe;
+export default CreatePost;

@@ -4,9 +4,10 @@ import { FormEvent, useState } from "react";
 import PageLogo from "../../../public/assets/images/blogLogo.jpeg";
 import Image from "next/image";
 import Link from "next/link";
-import axios from "axios";
+
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import { api } from "@recipeblog/utils/axios";
 
 type LoginData = {
   email: string;
@@ -21,7 +22,7 @@ const Login = () => {
 
   const { isPending, mutate } = useMutation({
     mutationFn: (loginData: LoginData) => {
-      return axios.post("/api/auth/login", loginData, {
+      return api.post("/api/auth/login", loginData, {
         withCredentials: true,
       });
     },
@@ -47,13 +48,13 @@ const Login = () => {
   };
 
   return (
-    <div className="w-full flex flex-row h-screen px-10">
-      <div className="flex w-[57%] bg-mainBackground h-full bg-cover">
+    <div className="w-full flex flex-row h-[100vh] px-10">
+      <div className="flex w-[57%] bg-mainBackground sm:hidden md:block h-full bg-cover">
         <Link
           href="/"
-          className="text-center pointer-events-none  relative w-full inset-0 flex items-center justify-center"
+          className="text-center pointer-events-none h-full relative w-full inset-0 flex items-center justify-center"
         >
-          <div className="absolute  z-0">
+          <div className="absolute items-center ">
             <Image
               src={PageLogo}
               alt="blogLogo"

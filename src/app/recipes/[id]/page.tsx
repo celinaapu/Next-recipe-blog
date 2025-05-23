@@ -1,17 +1,17 @@
 "use client";
 
 import Image from "next/image";
-import { RecipeData } from "../../createPost/page";
+import { RecipeData } from "../../create-recipe/page";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { useParams } from "next/navigation";
 import { FaRegEdit } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
 import Link from "next/link";
 import router from "next/router";
+import { api } from "@recipeblog/utils/axios";
 
 const fetchRecipe = async (_id: string) => {
-  const { data } = await axios.get(`/api/recipe/${_id}`, {
+  const { data } = await api.get(`/api/recipe/${_id}`, {
     withCredentials: true,
   });
   return data;
@@ -29,10 +29,11 @@ const SinglePage: React.FC<RecipeData> = () => {
 
   const deleteMutation = useMutation({
     mutationFn: async () => {
-      await axios.delete(`/api/recipe/${recipeId}`, {
+      await api.delete(`/api/recipe/${recipeId}`, {
         withCredentials: true,
       });
     },
+
     onSuccess: () => {
       alert("Recipe deleted successfully!");
       router.push("/"); // Redirect to homepage or recipe list
@@ -86,13 +87,13 @@ const SinglePage: React.FC<RecipeData> = () => {
           alt={data.name}
           width={800}
           height={600}
-          className="w-12 h-12 rounded-full object-cover"
+          className="w-32 h-32 rounded-full object-cover"
         />
         <span className="text-gray-800 font-medium">By {data.name}</span>
       </div>
-      <div className="w-full flex flex-row text-end ">
-        <Link href="/edit-recipe">
-          <div role="button" className="">
+      <div className="w-full flex m-6 flex-row items-end justify-end ">
+        <Link href={`/edit-recipe/${recipeId}`}>
+          <div role="button" className="text-[30px] text-blue-400 w-10">
             <FaRegEdit />
           </div>
         </Link>
@@ -106,7 +107,7 @@ const SinglePage: React.FC<RecipeData> = () => {
             }
           }}
         >
-          <MdDeleteForever className="text-red-600 hover:text-red-800 cursor-pointer" />
+          <MdDeleteForever className="text-red-600 text-[30px] hover:text-red-800 cursor-pointer" />
         </button>
       </div>
     </div>

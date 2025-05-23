@@ -1,33 +1,31 @@
 "use client";
 
 import Image from "next/image";
-import { RecipeData } from "../createPost/page";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import { RecipeData } from "../create-recipe/page";
 import Link from "next/link";
 
-const AllRecipe = () => {
-  const { data, isLoading } = useQuery<RecipeData[]>({
-    queryKey: ["allRecipe"],
-    queryFn: async () => {
-      const response = await axios.get("/api/recipe", {
-        withCredentials: true,
-      });
-      return response.data;
-    },
-  });
+// type Recipe = {
+//   _id: string;
+//   title: string;
+//   description: string;
+// };
 
+// interface AllRecipeprops {
+//   recipe: Recipe[];
+// }
+
+const AllRecipe = ({
+  data,
+  isLoading,
+}: {
+  data?: RecipeData[];
+  isLoading: boolean;
+}) => {
   if (isLoading) return <p className="text-center">Loading recipes...</p>;
-  // if (isError)
-  //   return (
-  //     <p className="text-center text-red-500">
-  //       Error: {(error as Error).message}
-  //     </p>
-  //   );
   return (
     <div className="w-[100%] h-[100%] flex flex-col p-6">
       <h2 className="w-full text-center"> All Recipes</h2>
-      <div className=" grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 gap-6">
         {data
           ?.filter((recipe) => !recipe.foodImage.includes("example.com"))
           ?.map((recipe) => {
@@ -35,14 +33,14 @@ const AllRecipe = () => {
               <Link key={recipe?._id} href={`/recipes/${recipe?._id}`}>
                 <div
                   key={recipe?._id}
-                  className="border p-4 rounded shadow hover:shadow-lg transition"
+                  className="border flex flex-col p-4 rounded shadow hover:shadow-lg transition "
                 >
                   <Image
                     src={recipe?.foodImage}
                     alt={recipe?.title}
                     width={800}
                     height={600}
-                    className="w-32 h-32 rounded-md object-cover mb-4"
+                    className="w-full h-32 rounded-md object-cover mb-4"
                   />
                   <h3 className="text-xl font-semibold">{recipe?.title}</h3>
                   <p className="text-gray-600">{recipe?.description}</p>

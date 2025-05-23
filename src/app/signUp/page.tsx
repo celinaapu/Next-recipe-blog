@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { FormEvent, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
 import { useRouter } from "next/navigation";
+import { api } from "@recipeblog/utils/axios";
 
 type NewUser = {
   username: string;
@@ -25,11 +25,11 @@ const SignUp = () => {
   const { isPending, error, mutate } = useMutation({
     mutationFn: (newUser: NewUser) => {
       console.log("i am here 2", newUser);
-      return axios.post("/api/auth/register", newUser);
+      return api.post("/api/auth/register", newUser);
     },
     mutationKey: ["signup"],
     onSuccess: () => {
-      return router.push("/signIn");
+      return router.push("/profile");
     },
   });
 
@@ -44,7 +44,7 @@ const SignUp = () => {
   };
 
   return (
-    <div className="max-w-3xl  mx-auto mt-24 ">
+    <div className="max-w-3xl  mx-auto mt-6 ">
       <h1 className="text-center font-bold text-[20px] pb-3">Sign Up</h1>
       {error && <p style={{ color: "red" }}>{formError}</p>}
       <form onSubmit={handleSubmit}>
