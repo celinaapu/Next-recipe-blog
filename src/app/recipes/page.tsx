@@ -25,7 +25,7 @@ const AllRecipe = ({
   return (
     <div className="w-[100%] h-[100%] flex flex-col p-6">
       <h2 className="w-full text-center"> All Recipes</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 shadow-lg sm:grid-cols-1 md:grid-cols-3 gap-6">
         {data
           ?.filter((recipe) => !recipe.foodImage.includes("example.com"))
           ?.map((recipe) => {
@@ -33,7 +33,7 @@ const AllRecipe = ({
               <Link key={recipe?._id} href={`/recipes/${recipe?._id}`}>
                 <div
                   key={recipe?._id}
-                  className="border flex flex-col p-4 rounded shadow hover:shadow-lg transition "
+                  className="border flex flex-col p-4 rounded shadow hover:shadow-4xl transition "
                 >
                   <Image
                     src={recipe?.foodImage}

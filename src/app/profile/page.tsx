@@ -12,7 +12,6 @@ import { FaUserCircle } from "react-icons/fa";
 import { FaPlusCircle } from "react-icons/fa";
 import { FaUtensils } from "react-icons/fa";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { api } from "@recipeblog/utils/axios";
 
 type ProfileInfo = {
@@ -53,10 +52,11 @@ const Profile = () => {
 
   // Fetch user profile data
   useEffect(() => {
+    console.log(" about to slp");
     const fetchUser = async () => {
       setLoading(true);
       try {
-        const res = await api.get("/api/auth/my-profile", {
+        const res = await api.get("/api/users/my-profile", {
           withCredentials: true,
         });
 
@@ -79,6 +79,7 @@ const Profile = () => {
         setLoading(false);
       }
     };
+    console.log("sleeping");
 
     fetchUser();
   }, [form]);
@@ -86,7 +87,7 @@ const Profile = () => {
   // Fetch user recipes
   const fetchUserRecipes = async () => {
     try {
-      const res = await api.get("/api/user/my-recipe", {
+      const res = await api.get("/api/recipe/user/my-recipes", {
         withCredentials: true,
       });
 
@@ -112,7 +113,7 @@ const Profile = () => {
 
   const onSubmit = async (data: ProfileInfo) => {
     try {
-      await api.put("/api/user/edit-my-profile", data, {
+      await api.put("/api/users/edit-my-profile", data, {
         withCredentials: true,
       });
       setIsEditing(false);
