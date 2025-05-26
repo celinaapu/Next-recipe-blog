@@ -15,7 +15,7 @@ import { useQuery } from "@tanstack/react-query";
 import { api } from "@recipeblog/utils/axios";
 
 type ProfileInfo = {
-  name: string;
+  username: string;
   email: string;
   bio: string;
   profileImage: string | null;
@@ -33,7 +33,7 @@ const Profile = () => {
 
   const form = useForm<ProfileInfo>({
     defaultValues: {
-      name: "",
+      username: "",
       email: "",
       bio: "",
       profileImage: null,
@@ -307,7 +307,7 @@ const Profile = () => {
                     id="name"
                     type="text"
                     disabled={!isEditing}
-                    {...register("name", { required: "Name is required" })}
+                    {...register("username", { required: "Name is required" })}
                     placeholder="Enter your name"
                     className={`w-full p-3 rounded-md ${
                       isEditing
@@ -315,9 +315,9 @@ const Profile = () => {
                         : "bg-gray-100 text-gray-800"
                     }`}
                   />
-                  {errors.name && (
+                  {errors.username && (
                     <p className="text-red-500 text-sm mt-1">
-                      {errors.name.message}
+                      {errors.username.message}
                     </p>
                   )}
                 </div>
